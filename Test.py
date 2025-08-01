@@ -1,24 +1,26 @@
+
 import requests
 from datetime import datetime
 import os
 
-GITHUB_TOKEN = os.getenv('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')
+GITHUB_TOKEN = os.getenv('')
 REPO_OWNER = "SumanAgr13"
-REPO_NAME = "Repo"  # or loop over many
+REPO_NAME = "PyCharmMiscProject"  # or loop over many
 TEAM_MEMBERS = [""]  # GitHub usernames
 
 HEADERS = {
-    "Authorization": f"token {GITHUB_TOKEN}",
-    "Accept": "application/vnd.github+json"
+    "Authorization": f"token {GITHUB_TOKEN}"
 }
 
 def get_pull_requests():
-    url = f"https://github.com/{REPO_OWNER}/{REPO_NAME}/pulls?state=all&per_page=100"
+    page = 1
+    url = f"https://api.github.com/search/issues?q=author:{REPO_OWNER}+type:pr&per_page=100&page={page}"
     print(url)
     prs = []
     while url:
         response = requests.get(url, headers=HEADERS)
         print(response.status_code)
+        print("hhhhh",response.json())
         data = response.json()
         for pr in data:
             author = pr['user']['login']
@@ -38,4 +40,6 @@ if __name__ == "__main__":
     pr_list = get_pull_requests()
     for pr in pr_list:
         print(f"{pr['author']} | {pr['created_at']} | {pr['title']} | {pr['url']}")
+
+
 
