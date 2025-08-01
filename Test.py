@@ -2,9 +2,9 @@ import requests
 from datetime import datetime
 import os
 
-GITHUB_TOKEN = os.getenv('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')
+GITHUB_TOKEN = os.getenv('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')
 REPO_OWNER = "SumanAgr13"
-REPO_NAME = "Repo"  # or loop over many
+REPO_NAME = "PyCharmMiscProject"  # or loop over many
 TEAM_MEMBERS = [""]  # GitHub usernames
 
 HEADERS = {
@@ -13,12 +13,13 @@ HEADERS = {
 }
 
 def get_pull_requests():
-    url = f"https://github.com/{REPO_OWNER}/{REPO_NAME}/pulls?state=all&per_page=100"
+    url = f"https://github.com/{REPO_OWNER}/{REPO_NAME}"
     print(url)
     prs = []
     while url:
         response = requests.get(url, headers=HEADERS)
         print(response.status_code)
+        print(response.text)
         data = response.json()
         for pr in data:
             author = pr['user']['login']
@@ -38,4 +39,6 @@ if __name__ == "__main__":
     pr_list = get_pull_requests()
     for pr in pr_list:
         print(f"{pr['author']} | {pr['created_at']} | {pr['title']} | {pr['url']}")
+
+
 
